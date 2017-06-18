@@ -1,0 +1,123 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+
+{% block styles %}
+{{ super() }}
+{% endblock styles %}
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Flasky</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('user.profile', user_id=current_user.id) }}">Profile</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Account <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('user.change_password', user_id=current_user.id) }}">Change Password</a></li>
+                        <li><a href="{{ url_for('user.logout') }}">Log Out</a></li>
+                    </ul>
+                </li>
+                {% else %}
+                <li><a href="{{ url_for('user.login') }}">Log In</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% if current_user.is_authenticated %}
+    {% block menu %}
+    <!-- Sidebar -->
+    <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">
+    <h3 class="w3-bar-item">Menu</h3>
+    <a href="{{ url_for('user.profile', user_id=current_user.id) }}" 
+    class="w3-bar-item w3-button">Profile</a>   
+    {% if current_user.can(1) %}
+    <a href="{{ url_for('user.account', user_id=current_user.id) }}" 
+    class="w3-bar-item w3-button">Account</a>
+    {% endif %}
+    {% if current_user.can(2) %}
+    <a href="{{ url_for('user.account', user_id=current_user.id) }}" 
+    class="w3-bar-item w3-button">Teaching</a>
+    {% endif %}
+    {% if current_user.can(16) %}
+    <a href="{{ url_for('user.account', user_id=current_user.id) }}" 
+    class="w3-bar-item w3-button">Students</a>
+    {% endif %}
+    {% if current_user.can(32) %}
+    <a href="{{ url_for('classbp.browse') }}" 
+    class="w3-bar-item w3-button">Classes</a>
+    <a href="{{ url_for('session.browse') }}" 
+    class="w3-bar-item w3-button">Sessions</a>
+    <a href="{{ url_for('teacher.browse') }}" 
+    class="w3-bar-item w3-button">Teachers</a>
+    {% endif %}
+
+    <a href="{{ url_for('student.addstudent', user_id=current_user.id) }}" 
+    class="w3-bar-item w3-button">Add Student</a>
+    <a href="{{ url_for('student.profile', student_id=current_user.id) }}" 
+    class="w3-bar-item w3-button">Student</a>
+    <a href="#" class="w3-bar-item w3-button">Browse</a>
+    </div>
+
+    <!-- Page Content -->
+    <div style="margin-left:25%">
+    <div class="w3-container w3-teal">
+    <h1>My Profile</h1>
+    </div>
+    <div class="w3-container">
+    {% endblock %}
+    {% block side_content %}
+    <h2>Sidebar Navigation Example</h2>
+    {% endblock %}
+    </div>
+    </div>
+    {% else %}
+    {% block page_content %}
+    {% endblock %}
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+{% endblock %}

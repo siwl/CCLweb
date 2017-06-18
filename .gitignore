@@ -1,4 +1,4 @@
 settings.env
 *.pyc
 web/migrations
-web/test
+web/tests

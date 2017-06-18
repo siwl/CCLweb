@@ -1,0 +1,4 @@
+settings.env
+*.pyc
+web/migrations
+web/test

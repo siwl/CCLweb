@@ -6,6 +6,8 @@ RUN apk add --update py2-pip
 
 # upgrade pip
 RUN pip install --upgrade pip
+RUN apk add --update mariadb-dev python-dev musl-dev
+RUN apk add --no-cache gcc
 
 # make work directory
 RUN mkdir /usr/data /usr/tmp

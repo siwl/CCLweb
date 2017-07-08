@@ -2,3 +2,4 @@ settings.env
 *.pyc
 web/migrations
 web/tests
+db/*

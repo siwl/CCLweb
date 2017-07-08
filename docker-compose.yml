@@ -1,24 +1,37 @@
 version: '2'
 services:
+  db:
+    image: mysql:latest
+    volumes:
+      - "./db:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: abc123
+      MYSQL_DATABASE: devdata
+      MYSQL_USER: ccl
+      MYSQL_PASSWORD: ccl123
+    ports: 
+      - 3306
+
   web:
     build: ./web
     image: cclweb
     depends_on:
       - mailhog
+      - db
     environment:
       MAIL_SERVER: mailhog
       MAIL_SERVER_PORT: 1025
       MAIL_AUTHENTICATION: "False"
-      DEV_DATABASE_URL: sqlite:////usr/data/web.db
+      DEV_DATABASE_URL: mysql://root:abc123@db:3306/devdata
     env_file:
       - settings.env
     links:
       - mailhog
+      - db
     ports:
       - "5000:5000"
     volumes:
-      - "./web:/usr/app"
-      - "./db:/usr/data"
+      - "./web:/usr/app"  
     entrypoint:
       - python
       - /usr/app/manage.py

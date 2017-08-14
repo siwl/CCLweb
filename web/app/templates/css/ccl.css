@@ -1,0 +1,114 @@
+:root {
+  --side-menu-width:     200px;
+  --menu-item-height:    44px;
+  --menu-item-font-size: 13px;
+  --theme-color:         #0288d1;  // light-blue dark-2
+  --font-color:          rgba(0, 0, 0, 0.87);
+  --active-color:        #b3e5fc;
+}
+
+ul:not(.browser-default) > li {
+  list-style-type: none;
+}
+
+main {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.top-nav {
+  background-color: var(--theme-color);
+  padding: 0 30px;
+}
+
+.side-menu {
+  width:       var(--side-menu-width);
+  display:     inline-block;
+  min-height:  calc(100vh - 20px);
+  padding-top: 20px;
+  overflow:    auto;
+}
+
+ul.menu a:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.menu li {
+  line-height: var(--menu-item-height);
+  float: none;
+}
+
+.menu li a{
+  font-size:   var(--menu-item-font-size);;
+  line-height: var(--menu-item-height);
+  height:      var(--menu-item-height);
+  padding:     0 30px;
+}
+
+.menu li > a {
+  display:    block;
+  color:      var(--font-color);
+}
+
+.bold > a {
+  font-weight: bold;
+}
+
+.menu .collapsible {
+  border:      none;
+  box-shadow:  none;
+  margin:      0;
+}
+
+.menu .collapsible li {
+  padding:     0;
+}
+
+.menu li.active {
+  background-color:  rgba(0, 0, 0, 0.05);
+}
+
+.menu ul.collapsible-accordion a.collapsible-header {
+  padding: 0 30px;
+}
+
+.menu .collapsible-header {
+  background-color: transparent;
+  border: none;
+  line-height: inherit;
+  height:      inherit;
+}
+
+.menu .collapsible-body {
+  background-color: #fff;
+  border:      none;
+  padding:     0;
+}
+
+.menu .collapsible-body>ul:not(.collapsible)>li.active {
+  background-color: var(--active-color);
+}
+
+.menu .collapsible-accordion .collapsible-body li a {
+  padding:     0 37.5px 0 50px;
+}
+
+#content {
+  flex: 1;
+  -webkit-flex: 1;
+  padding-top: 10px;
+}
+
+.content-main {
+  min-height: 100vh;
+}
+
+.content-main .tabs .tab a {
+  color: var(--font-color);
+}
+.content-main .tabs .tab a.active {
+  color: var(--theme-color);
+}
+.content-main .tabs .indicator {
+  background-color: var(--theme-color);
+}

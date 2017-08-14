@@ -115,6 +115,7 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        print "check!"
         user = User(email = form.email.data,
                     password = form.password.data,
                     address = form.address.data,
@@ -129,6 +130,8 @@ def register():
                     chinese_name2 = form.chname2.data,
                     middle_name2 = form.middlename2.data,
                     phone2 = form.phone2.data)
+        print "user"
+        print user
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()
@@ -196,5 +199,3 @@ def password_reset(token):
         else:
             return redirect(url_for('main.index'))
     return render_template('user/auth/reset_password.html', form=form)
-
-

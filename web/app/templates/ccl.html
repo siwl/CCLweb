@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {%- block head %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}Materialize - Testing Page{% endblock title %}</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='ccl.css') }}">
+    {%- endblock head %}
+</head>
+
+<body>
+{% block body -%}
+  <header>
+    <nav class="top-nav">
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">CCL@Stony Brook</a>
+        <ul class="right">
+          {% if current_user.is_authenticated %}
+          <li><a href="{{ url_for('user.logout') }}">Logout</a></li>
+          {% else %}
+          <li><a href="{{ url_for('user.register') }}">Register</a></li>
+          <li><a href="{{ url_for('user.login') }}">Log in</a></li>
+          {% endif %}
+        </ul>
+      </div>
+     </nav>
+  </header>
+
+  <main>
+    <!-- side menu -->
+    {%- block menu %}
+    <aside class="side-menu z-depth-1">
+      <ul class="menu">
+        <li class="no-padding">
+          <ul class="collapsible collapsible-accordion">
+
+            <!-- Home -->
+            <li class="bold" id="home">
+              <a href="#" class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">home</i>Home
+              </a>
+            </li>
+
+            <!-- Account { account: [profile, chgpasswd] } -->
+            <li class="bold" id="account">
+              <a class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">person</i>Account
+              </a>
+              <div class="collapsible-body">
+                <ul>
+                  <li id="account-profile"><a href="#!">Profile</a></li>
+                  <li id="account-chgpasswd"><a href="#!">Password</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <!-- family { family: [summary, balance, registration] }-->
+            <li class="bold" id="family">
+              <a class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">account_balance</i>Family
+              </a>
+                <div class="collapsible-body">
+                  <ul>
+                    <li id="family-summary"><a href="#">Summary</a></li>
+                    <li id="family-balance"><a href="#">Balance</a></li>
+                    <li id="family-registration"><a href="#">Registration</a></li>
+                  </ul>
+                </div>
+             </li>
+
+            <!-- Calendar -->
+            <li class="bold">
+              <a href="#" class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">event_note</i>Calendar
+              </a>
+            </li>
+
+            <!-- My Classes TODO-->
+            <li class="bold" id="class">
+              <a class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">folder</i>My Classes
+              </a>
+             </li>
+
+            <!-- school { school: [teaching, students, finance, books, announcement] }-->
+            <li class="bold" id="school">
+              <a class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">business</i>School
+              </a>
+                <div class="collapsible-body">
+                  <ul>
+                    <li id="school-teacher"><a href="#">Teaching</a></li>
+                    <li id="school-students"><a href="#">Students</a></li>
+                    <li id="school-finance"><a href="#">Finance</a></li>
+                    <li id="school-books"><a href="#">Books</a></li>
+                    <li id="school-announcement"><a href="#">Announcement</a></li>
+                  </ul>
+                </div>
+             </li>
+
+            <!-- Admin -->
+            <li class="bold" id="admin">
+              <a href="#" class="collapsible-header waves-effect waves-teal">
+                <i class="material-icons">supervisor_account</i>Admin
+              </a>
+            </li>
+
+          </ul>
+        </li>
+      </ul>
+    </aside>
+    {%- endblock menu %}
+
+    <!-- main content -->
+    {% block content %}
+    <div id="content">
+      <div class="container"><div class="card content-main">
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs">
+              <li class="tab col s3"><a href="#tab1">One</a></li>
+              <li class="tab col s3"><a href="#tab2" class="active">Two</a></li>
+              <li class="tab col s3"><a href="#tab3">Three</a></li>
+            </ul>
+          </div>
+
+          <div id="tab1" class="col s12">Page One</div>
+          <div id="tab2" class="col s12">Page Two</div>
+          <div id="tab3" class="col s12">Page Three</div>
+
+        </div>
+
+      </div></div> <!-- container -->
+    </div> <!-- content -->
+    {% endblock content %}
+  </main>
+  {% block script %}
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+  <script>
+
+    var currentMenuItem = "school-finance";
+    var menuItemDisplay = {
+      "account-profile"   : false,
+      "school-books"      : false,
+    };
+
+    function updateMenuItems() {
+      var $root = $("ul.menu > li > ul.collapsible-accordion");
+      Object.keys(menuItemDisplay).forEach( id => {
+        if (menuItemDisplay[id]) return;
+        $root.find('#'+id).remove();
+      })
+
+      // remove collapsible menu with empty body
+      $root.find('div.collapsible-body > ul').each( (index, ul) => {
+        var $ul = $(ul);
+        if ($ul.children().length == 0) $ul.parent().parent().remove();
+      });
+
+      // enable active menu item
+      if (currentMenuItem) {
+        var $item = $root.find('#'+currentMenuItem);
+        if ($item.length) {
+          $item.addClass("active");
+        }
+
+        var i = 0;
+        $root.children().each( (index, li) => {
+          var $li = $(li);
+          if ($li.find('#'+currentMenuItem).length) {
+            i = index;
+            return false;
+          }
+        })
+        $root.collapsible("open", i);
+      }
+    } // end of updateMenuItems()
+
+    $(function() {
+      Materialize.updateTextFields();
+      $(".button-collapse").sideNav();
+      updateMenuItems();
+    });
+  </script>
+  {% endblock script %}
+{%- endblock body %}
+</body>
+
+</html>

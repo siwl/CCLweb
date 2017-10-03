@@ -17,6 +17,7 @@ class Permission:
     TEACHER = 0b00000111
     TEACHERASSIST = 0b00000011
     STUDENT = 0b00000001
+    DEFAULT = 0b00000001
     INACTIVE = 0b00000000
     #bit info
     bit0 = 0b00000001
@@ -34,22 +35,22 @@ class Permission:
 class StudentSession(db.Model):
     __tablename__ = 'studentsessions'
     status = db.Column(db.String(10), nullable=False)
-    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'), 
+    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'),
                         primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey('students.id'), 
+    student_id = db.Column(db.Integer, db.ForeignKey('students.id'),
                         primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False) 
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 
 
 class TeacherSession(db.Model):
     __tablename__ = 'teachersessions'
     status = db.Column(db.String(10), nullable=False)
-    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'), 
+    session_id = db.Column(db.Integer, db.ForeignKey('sessions.id'),
                         primary_key=True)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'), 
+    teacher_id = db.Column(db.Integer, db.ForeignKey('teachers.id'),
                         primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False) 
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 
 
@@ -138,12 +139,12 @@ class TASession(db.Model):
                         primary_key=True)
     ta_id = db.Column(db.Integer, db.ForeignKey('teacherassists.id'),
                         primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False) 
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.String(10), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False) 
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     description = db.Column(db.String(100))
 
@@ -189,6 +190,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True, index=True)
     nickname = db.Column(db.String(15))
     address = db.Column(db.String(200))
+    permission = db.Column(db.Integer)
     #Contact 1
     last_name1 = db.Column(db.String(30), nullable= False)
     first_name1 = db.Column(db.String(30), nullable= False)
@@ -201,7 +203,7 @@ class User(UserMixin, db.Model):
     middle_name2 = db.Column(db.String(30))
     chinese_name2 = db.Column(db.Unicode(5))
     phone2 = db.Column(db.String(11))
-    
+
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
@@ -211,10 +213,10 @@ class User(UserMixin, db.Model):
         super(User, self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['FLASKY_ADMIN']:
-                self.role = Role.query.filter_by(permissions=0b11111111).first()
-            if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
-        
+                self.permission = Permission.ADMIN
+            if self.permission is None:
+                self.permission = Permission.DEFAULT
+
     def has_student(self, student):
         return self.students.filter_by(
             id=student.id).first() is not None
@@ -294,8 +296,8 @@ class User(UserMixin, db.Model):
         return True
 
     def can(self, permissions):
-        return self.role is not None and \
-            (self.role.permissions & permissions) == permissions
+        return self.permission is not None and \
+            (self.permission & permissions) == permissions
 
     def is_admin(self):
         return self.can(Permission.ADMIN)

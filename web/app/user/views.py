@@ -24,7 +24,6 @@ def profile(user_id):
 @authority_required(Permission.ADMIN)
 def edit_profile(user_id):
     form = EditProfileForm()
-    print 'vali'
     if form.validate_on_submit():
         print 'validating'
         current_user.phone = form.phone1.data
@@ -115,7 +114,6 @@ def logout():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        print "check!"
         user = User(email = form.email.data,
                     password = form.password.data,
                     address = form.address.data,
@@ -130,8 +128,6 @@ def register():
                     chinese_name2 = form.chname2.data,
                     middle_name2 = form.middlename2.data,
                     phone2 = form.phone2.data)
-        print "user"
-        print user
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

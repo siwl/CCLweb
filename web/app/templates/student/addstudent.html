@@ -1,13 +1,36 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "ccl.html" %}
+{% import "wtf.html" as wtf %}
 
-{% block title %}Flasky - Change Password{% endblock %}
+{% block title %}Flasky - Add Student{% endblock %}
 
-{% block side_content %}
+{% block body %}
 <div class="page-header">
-    <h1>Add Student</h1>
 </div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-</div>
+<div class="row">
+        <div class="col s12 m6 offset-m3">
+          <div class="card grey lighten-5">
+            <div class="card-content black-text">
+              <span class="card-title">New Student</span>
+              <div class="col-md-4">
+                  {{ wtf.quick_form(form) }}
+                  <a href="{{url_for('user.account',user_id=current_user.id)}}">Cancel</a></li>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}
+{% block script %}
+{{super()}}
+$('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 20, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false, // Close upon selecting a date
+    format: 'yyyy-dd-mm'
+  });
 {% endblock %}

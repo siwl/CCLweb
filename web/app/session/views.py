@@ -5,7 +5,7 @@ from . import session
 from .. import db
 from ..models import User, Session, Permission
 from ..email import send_email
-from .forms import NewSessionForm, EditProfileForm	
+from .forms import NewSessionForm, EditProfileForm
 from ..decorators import permission_required
 
 
@@ -35,7 +35,7 @@ def edit_profile(session_id):
     form.room.data = session.room
     form.time.data = session.time
     form.duration.data = session.duration
-    return render_template('session/edit_profile.html', form=form, session=session) 
+    return render_template('session/edit_profile.html', form=form, session=session)
 
 
 #SE3
@@ -52,7 +52,8 @@ def addsession(class_id):
         db.session.add(newsession)
         db.session.commit()
         return redirect(url_for('classbp.profile', class_id=class_id))
-    return render_template("session/addtoclass.html", form=form)
+    form.duration.data = 2
+    return render_template("session/addsession.html", form=form)
 
 
 #SE4

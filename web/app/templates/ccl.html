@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html {% block html_attribs %} lang="en" {% endblock html_attribs %}>
 
 <head>
     {%- block head %}
+    {%- block metas %}
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% endblock metas %}
     <title>{% block title %}Materialize - Testing Page{% endblock title %}</title>
 
+    {%- block styles %}
     <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='ccl.css') }}">
+    {% endblock styles %}
     {%- endblock head %}
 </head>
 
 <body>
 {% block body -%}
   <header>
+    {% block header -%}
     <nav class="top-nav">
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo">CCL@Stony Brook</a>
+        <a href="{{ url_for('main.index') }}" class="brand-logo">CCL@Stony Brook</a>
         <ul class="right">
           {% if current_user.is_authenticated %}
           <li><a href="{{ url_for('user.logout') }}">Logout</a></li>
@@ -32,11 +37,22 @@
         </ul>
       </div>
      </nav>
+     {%- endblock header %}
   </header>
 
   <main>
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+       Materialize.toast('I am a toast!', 4000)
+      {{ message }}
+    </div>
+    {% endfor %}
+
+    {%- block content %}
     <!-- side menu -->
     {%- block menu %}
+    {% if current_user.is_authenticated %}
     <aside class="side-menu z-depth-1">
       <ul class="menu">
         <li class="no-padding">
@@ -56,8 +72,12 @@
               </a>
               <div class="collapsible-body">
                 <ul>
-                  <li id="account-profile"><a href="#!">Profile</a></li>
-                  <li id="account-chgpasswd"><a href="#!">Password</a></li>
+                  <li id="account-profile">
+                    <a href="{{ url_for('user.profile',user_id=current_user.id) }}">Profile</a>
+                  </li>
+                  <li id="account-chgpasswd">
+                    <a href="{{ url_for('user.change_password',user_id=current_user.id) }}">Password</a>
+                  </li>
                 </ul>
               </div>
             </li>
@@ -69,9 +89,16 @@
               </a>
                 <div class="collapsible-body">
                   <ul>
-                    <li id="family-summary"><a href="#">Summary</a></li>
+                    <li id="family-summary">
+                      <a href="{{ url_for('user.account',user_id=current_user.id) }}">Summary</a>
+                    </li>
+                    <li id="family-enroll">
+                      <a href="{{ url_for('user.account',user_id=current_user.id) }}">Enroll</a>
+                    </li>
                     <li id="family-balance"><a href="#">Balance</a></li>
-                    <li id="family-registration"><a href="#">Registration</a></li>
+                    <li id="family-registration">
+                      <a href="{{ url_for('student.addstudent',user_id=current_user.id) }}">Registration</a>
+                    </li>
                   </ul>
                 </div>
              </li>
@@ -98,7 +125,13 @@
                 <div class="collapsible-body">
                   <ul>
                     <li id="school-teacher"><a href="#">Teaching</a></li>
+                    <li id="school-teacher"><a href="#">Sessions</a></li>
                     <li id="school-students"><a href="#">Students</a></li>
+                    {% if int(current_user.can(Permission.bit5)) %}
+                    <li id="school-classes">
+                      <a href="{{url_for('classbp.browse')}}">Classes</a>
+                    </li>
+                    {% endif %}
                     <li id="school-finance"><a href="#">Finance</a></li>
                     <li id="school-books"><a href="#">Books</a></li>
                     <li id="school-announcement"><a href="#">Announcement</a></li>
@@ -107,49 +140,66 @@
              </li>
 
             <!-- Admin -->
+            {% if current_user.is_admin() %}
             <li class="bold" id="admin">
               <a href="#" class="collapsible-header waves-effect waves-teal">
                 <i class="material-icons">supervisor_account</i>Admin
               </a>
+              <div class="collapsible-body">
+                <ul>
+                  <li id="admin-user"><a href="{{url_for('user.browse')}}">Users</a></li>
+                </ul>
+              </div>
             </li>
+            {% endif %}
 
           </ul>
         </li>
       </ul>
     </aside>
+    {% endif %}
     {%- endblock menu %}
 
+    {% block main_content -%}
     <!-- main content -->
-    {% block content %}
+    {% if current_user.is_authenticated %}
     <div id="content">
       <div class="container"><div class="card content-main">
         <div class="row">
           <div class="col s12">
             <ul class="tabs">
+              {% block tab1 %}
               <li class="tab col s3"><a href="#tab1">One</a></li>
+              {% endblock tab1%}
+              {% block tab2%}
               <li class="tab col s3"><a href="#tab2" class="active">Two</a></li>
+              {% endblock tab2%}
+              {% block tab3%}
               <li class="tab col s3"><a href="#tab3">Three</a></li>
+              {% endblock tab3%}
             </ul>
           </div>
-
+          {% block tabcontent%}
           <div id="tab1" class="col s12">Page One</div>
           <div id="tab2" class="col s12">Page Two</div>
           <div id="tab3" class="col s12">Page Three</div>
+          {% endblock tabcontent %}
 
         </div>
-
+        {% endif %}
       </div></div> <!-- container -->
     </div> <!-- content -->
+    {% endblock main_content %}
     {% endblock content %}
   </main>
-  {% block script %}
+  {%- endblock body %}
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
   <script>
-
-    var currentMenuItem = "school-finance";
+  {% block script %}
+    var currentMenuItem = {% block currentMenuItem %}"home"{% endblock currentMenuItem %};
     var menuItemDisplay = {
-      "account-profile"   : false,
+      "account-profile"   : true,
       "school-books"      : false,
     };
 
@@ -190,9 +240,12 @@
       $(".button-collapse").sideNav();
       updateMenuItems();
     });
-  </script>
+
+    $(document).ready(function() {
+      $('select').material_select();
+    });
   {% endblock script %}
-{%- endblock body %}
+  </script>
 </body>
 
 </html>

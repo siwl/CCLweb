@@ -1,19 +1,56 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "ccl.html" %}
+{% import "wtf.html" as wtf %}
 
-{% block title %}Flasky - Edit Profile{% endblock %}
+{% block title %}CCL - Profile{{current_user.last_name1}}{% endblock %}
 
-{% block side_content %}
-<div class="page-header">
-    <div class="profile-header">
-        <h1>{{ current_user.first_name1 }}</h1>
+
+{% block tab3 %}
+{% endblock %}
+{% block tab1 %}
+<li class="tab col s3"><a href="#tab1">Profile</a></li>
+{% endblock tab1%}
+{% block tab2 %}
+<li class="tab col s3"><a href="#tab2">Students</a></li>
+{% endblock tab2%}
+{% block tabcontent %}
+    <div id="tab1" class="col s12">
+      {% if int(current_user.get_id()) == user.id or current_user.can(8) %}
+      <div class="row">
+        <div class="col s12 m5">
+          <div class="card-panel white">
+            <span class="black-text">
+              <p>Your name: {{current_user.last_name1}} {{current_user.first_name1}}</p>
+              <p>Your phone number: {{current_user.phone1}}</p>
+              <p>Your permission: {{current_user.permission}}</p>
+              <a href="{{ url_for('user.edit_profile', user_id=user.id) }}">Edit Profile</a>
+            </span>
+          </div>
+        </div>
+      </div>
+      <p><a href="{{ url_for('user.account', user_id=current_user.id) }}" class="btn btn-primary">Account</a></p>
+      <p><a href="{{ url_for('user.change_password', user_id=current_user.id) }}" class="btn btn-primary">Change Password</a></p>
     </div>
-
-    {% if int(current_user.get_id()) == user.id or current_user.can(8) %}
-    <p>Here I come</p>
-    <p><a href="{{ url_for('user.edit_profile', user_id=user.id) }}" class="btn btn-primary">Edit</a></p>
-    <p><a href="{{ url_for('user.account', user_id=user.id) }}" class="btn btn-primary">Account</a></p>
-    <p><a href="{{ url_for('user.change_password', user_id=user.id) }}" class="btn btn-primary">Change Password</a></p>
     {% endif %}
 </div>
+
+<div id="tab2" class="col s12">
+  {% if int(current_user.get_id()) == user.id or current_user.can(8) %}
+  <div class="row">
+    <div class="col s12 m5">
+      <div class="card-panel white">
+        <span class="black-text">
+          <p>Your name: {{current_user.last_name1}} {{current_user.first_name1}}</p>
+          <p>Your phone number: {{current_user.phone1}}</p>
+          <a href="{{ url_for('user.edit_profile', user_id=user.id) }}">Edit Profile</a>
+        </span>
+      </div>
+    </div>
+  </div>
+  <p><a href="{{ url_for('user.account', user_id=user.id) }}" class="btn btn-primary">Account</a></p>
+</div>
+{% endif %}
+</div>
+{% endblock %}
+{% block currentMenuItem %}
+"account-profile"
 {% endblock %}

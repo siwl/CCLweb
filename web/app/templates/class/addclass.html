@@ -1,13 +1,19 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "ccl.html" %}
+{% import "wtf.html" as wtf %}
 
-{% block title %}Flasky - Add Class{% endblock %}
+{% block title %}CCL - Add A Class{% endblock %}
 
-{% block side_content %}
-<div class="page-header">
-    <h1>Add Class</h1>
-</div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-</div>
+{% block content %}
+
+  <div class="row">
+    <div class="col s12 m12">
+      <div class="card  white">
+        <div class="card-content black-text">
+          <span class="card-title">Add a Class</span>
+          {{ wtf.quick_form(form) }}
+            <a href="{{ url_for('classbp.browse') }}">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

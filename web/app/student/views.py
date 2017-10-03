@@ -87,4 +87,3 @@ def register(student_id,session_id):
 def browse():
     students = Student.query.all()
     return render_template("student/student_browse.html", students=students)
-

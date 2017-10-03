@@ -1,21 +1,31 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "ccl.html" %}
+{% import "wtf.html" as wtf %}
 
-{% block title %}Flasky - Class Info{% endblock %}
+{% block title %}CCL - Class Info{% endblock %}
 
-{% block side_content %}
-<div class="page-header">
-    <h1>Class Profile</h1>
-</div>
-<div class="col-md-4">
+{% block tab1 %}
+<li class="tab col s3"><a href="#tab1">Class Info</a></li>
+{% endblock tab1%}
+{% block tab2 %}
+{% endblock %}
+{% block tab3 %}
+{% endblock %}
+
+{% block tabcontent %}
+<div class="col s12">
     <p> No.{{ tclass.id }}</p>
-    <p>{{ tclass.name }} </p>
-    <h3>All Sessions</h3>
+    <p>Name: {{ tclass.name }} </p>
+    <p>Description: {{ tclass.description }}</p>
+    <p>Type: {{ tclass.class_type }}</p>
+    <p>All Sessions:</p>
     {% for session in tclass.sessions %}
     <p>{{ session.school_year }} {{ session.time }} {{ session.room }}</p>
     {% endfor %}
     {% if current_user.can(Permission.bit5) %}
     <p><a href="{{ url_for('session.addsession', class_id=tclass.id) }}" class="btn btn-primary">Add Session</a></p>
     {% endif %}
+    <a href="{{url_for('classbp.browse')}}">Show All Classes</a>
 </div>
 {% endblock %}
+
+{% block currentMenuItem %}"school-classes"{% endblock currentMenuItem %}

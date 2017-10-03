@@ -58,5 +58,3 @@ def addclass():
 def browse():
 	classes = Class.query.all()
 	return render_template("class/class_browse.html", classes=classes)
-
-

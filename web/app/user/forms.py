@@ -101,5 +101,3 @@ class EditProfileForm(Form):
     first_name1 = StringField('First Name', validators=[Length(0, 20)])
     phone1 = StringField('phone number', validators=[Length(11, 11)])
     submit = SubmitField('Submit')
-
-

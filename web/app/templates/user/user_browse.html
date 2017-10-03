@@ -1,16 +1,22 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "ccl.html" %}
+{% import "wtf.html" as wtf %}
 
-{% block title %}Flasky - Users{% endblock %}
+{% block title %}CCL - User List{% endblock %}
 
-{% block side_content %}
-<div class="page-header">
-    <h1>All Users</h1>
-</div>
-<div class="col-md-4">
-    {% for user in users %}    
-    	<li class="list-group-item"><a href="{{ url_for('user.profile', user_id=user.id) }}" >{{ user.id }} </a></li>
+{% block tab3 %}
+{% endblock %}
+{% block tabcontent %}
+<div id="tab1" class="col s12">
+  <div class="col-md-4">
+    <ul class="collection">
+    {% for user in users %}
+      <a href="{{ url_for('user.profile', user_id=user.id) }}" class="collection-item">
+        {{ user.last_name1}} {{user.first_name1}}</a>
     {% endfor %}
-
+  </div>
 </div>
+{% endblock %}
+
+{% block currentMenuItem %}
+"admin-user"
 {% endblock %}

@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField, \
-    TextAreaField, DateField
+    TextAreaField, DateField, SelectField
 from wtforms.validators import Required, Optional, Length, Email, Regexp, EqualTo, NumberRange
 from wtforms import ValidationError
 from ..models import User
@@ -12,8 +12,10 @@ class NewSessionForm(Form):
         Required(), Length(4, 4)])
     room = StringField('Room', validators=[
         Optional(), Length(0, 10)])
-    time = StringField('Time', validators=[
-        Required(), Length(2, 2)])
+    time = SelectField('Time', choices=[
+        ('AM',"AM"), ('PM',"PM"),('NN',"NN")],
+        validators=[Required(), Length(2, 2)])
+    duration = IntegerField('Duration', validators=[Optional()])
     submit = SubmitField('Submit')
 
 

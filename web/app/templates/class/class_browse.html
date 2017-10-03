@@ -1,19 +1,26 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "ccl.html" %}
+{% import "wtf.html" as wtf %}
 
-{% block title %}Flasky - Classes{% endblock %}
+{% block title %}CCL - Classes{% endblock %}
 
-{% block side_content %}
-<div class="page-header">
-    <h1>All Classes</h1>
-</div>
-<div class="col-md-4">
-    {% for tclass in classes %}    
-    	<li class="list-group-item"><a href="{{ url_for('.profile', class_id=tclass.id) }}" >{{ tclass.name }}</a></li>
-    	<li class="list-group-item"><a href="{{ url_for('classbp.edit_profile', class_id=tclass.id) }}" >Edit</a></li>
-    	
-    	
-    {% endfor %}
+{% block tab1 %}
+<li class="tab col s3"><a href="#tab1">Classes</a></li>
+{% endblock tab1%}
+{% block tab2%}
+{% endblock tab2%}
+{% block tab3%}
+{% endblock tab3%}
+{% block tabcontent%}
+<div id="tab1" class="col s12">
+  <p>All Classes</p>
+  <div class="collection col s10 offset-s1">
+  {% for tclass in classes %}
+    <a href="{{ url_for('.profile', class_id=tclass.id) }}" class="collection-item">{{ tclass.name }}</a>
+  {% endfor %}
+  </div>
 
+  <p><a href="{{url_for('classbp.addclass')}}">Add a class</a></p>
 </div>
 {% endblock %}
+
+{% block currentMenuItem %}"school-classes"{% endblock currentMenuItem %}

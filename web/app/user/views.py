@@ -30,7 +30,7 @@ def edit_profile(user_id):
         current_user.first_name1 = form.first_name1.data
         current_user.last_name1 = form.last_name1.data
         db.session.add(current_user)
-        flash('Your profile has been updated.')
+#        flash('Your profile has been updated.')
         return redirect(url_for('.profile', user_id = user_id))
     form.first_name1.data = current_user.first_name1
     form.last_name1.data = current_user.last_name1

@@ -19,7 +19,7 @@
         <div class="col s12 m5">
           <div class="card-panel white">
             <span class="black-text">
-              <p>Your name: {{current_user.last_name1}} {{current_user.first_name1}}</p>
+              <p>Name: {{current_user.last_name1}} {{current_user.first_name1}}</p>
               <p>Your phone number: {{current_user.phone1}}</p>
               <p>Your permission: {{current_user.permission}}</p>
               <a href="{{ url_for('user.edit_profile', user_id=user.id) }}">Edit Profile</a>

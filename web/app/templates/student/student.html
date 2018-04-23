@@ -16,15 +16,9 @@
   <div class="col s12 m5">
     <div class="card-panel white">
       <span class="black-text">
-        <ul class="list-group">
-          <p>The student is {{ student.first_name }}.</p>
-          {% for student in students %}
-            <li class="list-group-item"><a href="{{ url_for('student.profile', student_id=student.id) }}" >
-            {{ student.first_name }}  {{ student.last_name }}</li>
-            <li class="list-group-item"><a href="{{ url_for('student.sessionlist', student_id=student.id) }}" >Enroll</a></li>
-
-          {% endfor %}
-        </ul>
+        <p>Student Name: {{ student.first_name }}{{ student.last_name }}</p>
+        <p>Student's Parents: {{user.first_name1 }} {{user.last_name1}} </p>
+        <a href="{{ url_for('student.delete', student_id=student.id) }}">Remove Stduent</a>
       </span>
     </div>
   </div>

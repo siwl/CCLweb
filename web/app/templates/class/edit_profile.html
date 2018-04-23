@@ -1,13 +1,27 @@
-{% extends "base.html" %}
+{% extends "ccl.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Edit Teacher Profile{% endblock %}
+{% block title %}CCL - Edit Teacher Profile{% endblock %}
 
-{% block side_content %}
+{% block body %}
 <div class="page-header">
-    <h1>Edit Class's Profile</h1>
 </div>
-<div class="col-md-4">
-    {{ wtf.quick_form(form) }}
-</div>
+<div class="row">
+        <div class="col s12 m6 offset-m3">
+          <div class="card grey lighten-5">
+            <div class="card-content black-text">
+              <span class="card-title">Edit Class</span>
+              <div class="col-md-4">
+                  {{ wtf.quick_form(form) }}
+                  <a href="{{url_for('user.account',user_id=current_user.id)}}">Cancel</a></li>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+{% endblock %}
+{% block script %}
+{{super()}}
 {% endblock %}

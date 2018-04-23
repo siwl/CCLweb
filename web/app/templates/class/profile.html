@@ -24,7 +24,8 @@
     {% if current_user.can(Permission.bit5) %}
     <p><a href="{{ url_for('session.addsession', class_id=tclass.id) }}" class="btn btn-primary">Add Session</a></p>
     {% endif %}
-    <a href="{{url_for('classbp.browse')}}">Show All Classes</a>
+    <p><a href="{{ url_for('classbp.edit_profile', class_id=tclass.id) }}">Edit Class</a></p>
+    <p><a href="{{url_for('classbp.browse')}}">Show All Classes</a></p>
 </div>
 {% endblock %}
 

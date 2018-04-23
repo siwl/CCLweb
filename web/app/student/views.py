@@ -14,10 +14,12 @@ from ..decorators import authority_required
 @login_required
 def profile(student_id):
     student = Student.query.filter_by(id=student_id).first_or_404()
+    user_id = student.user_id
+    user = User.query.filter_by(id=user_id).first_or_404()
     if not current_user.has_student(student) and not current_user.is_admin() \
     and not current_user.is_teacing(student):
         abort(403)
-    return render_template('student/student.html', student=student)
+    return render_template('student/student.html', student=student, user = user)
 
 
 #ST2
@@ -32,7 +34,7 @@ def addstudent(user_id):
                     middle_name = form.middlename.data,
                     chinese_name = form.chname.data,
                     birthday = form.birthday.data,
-                    user = current_user._get_current_object())
+                    user = User.query.filter_by(id=user_id).first_or_404())
         db.session.add(student)
         db.session.commit()
         return redirect(url_for('user.account',user_id=user_id))
@@ -92,5 +94,9 @@ def browse():
 @student.route('/delete?student=<student_id>', methods=['GET', 'POST'])
 def delete(student_id):
     student = Student.query.filter_by(id=student_id).first_or_404()
+    if not current_user.has_student(student) and not current_user.is_admin():
+        abort(403)
     db.session.delete(student)
     db.session.commit()
+    flash('Student is deleted.')
+    return render_template('ccl.html')

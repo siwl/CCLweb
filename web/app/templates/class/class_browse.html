@@ -11,16 +11,22 @@
 {% block tab3%}
 {% endblock tab3%}
 {% block tabcontent%}
-<div id="tab1" class="col s12">
-  <p>All Classes</p>
-  <div class="collection col s10 offset-s1">
-  {% for tclass in classes %}
-    <a href="{{ url_for('.profile', class_id=tclass.id) }}" class="collection-item">{{ tclass.name }}</a>
-  {% endfor %}
-  </div>
 
-  <p><a href="{{url_for('classbp.addclass')}}">Add a class</a></p>
+
+
+
+<div id="tab1" class="col s12">
+  <div class="col-md-4">
+    <ul class="collection">
+      {% for tclass in classes %}
+      <a href="{{ url_for('.profile', class_id=tclass.id) }}" class="collection-item">{{ tclass.name }}</a>
+      {% endfor %}
+  </div>
+  <a href="{{ url_for('classbp.addclass') }}">Add Class</a>
+  </div>
 </div>
+
+
 {% endblock %}
 
 {% block currentMenuItem %}"school-classes"{% endblock currentMenuItem %}

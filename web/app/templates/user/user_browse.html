@@ -11,7 +11,7 @@
     <ul class="collection">
     {% for user in users %}
       <a href="{{ url_for('user.profile', user_id=user.id) }}" class="collection-item">
-        {{ user.last_name1}} {{user.first_name1}}</a>
+        {{ user.last_name1}} {{user.first_name1}}{{ user.id }}</a>
     {% endfor %}
   </div>
 </div>

@@ -12,7 +12,7 @@
       <div class="card-content black-text">
         <span class="card-title">Sign In</span>
           {{ wtf.quick_form(form) }}
-          <p class="margin medium-small"><a href="#">Register Now!</a></p>
+          <p class="margin medium-small"><a href="{{ url_for('user.register',user_id=current_user.id)}}">Register Now!</a></p>
           <p class="margin medium-small"><a href="#">Forgot password ?</a></p>
       </div>
     </div>

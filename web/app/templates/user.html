@@ -1,7 +1,7 @@
 {% extends "ccl.html" %}
 {% import "wtf.html" as wtf %}
 
-{% block title %}CCL - Profile{{current_user.last_name1}}{% endblock %}
+{% block title %}CCL - Profile of {{user.last_name1}}{% endblock %}
 
 
 {% block tab3 %}
@@ -19,19 +19,35 @@
         <div class="col s12 m5">
           <div class="card-panel white">
             <span class="black-text">
-              <p>Name: {{current_user.last_name1}} {{current_user.first_name1}}</p>
-              <p>Your phone number: {{current_user.phone1}}</p>
-              <p>Your permission: {{current_user.permission}}</p>
+              <p>Name: {{user.last_name1}} {{user.first_name1}}</p>
+              <p>Your phone number: {{user.phone1}}</p>
+              <p>Your permission: {{user.permission}}</p>
               <a href="{{ url_for('user.edit_profile', user_id=user.id) }}">Edit Profile</a>
             </span>
           </div>
+
+          <div class="card-panel white">
+            <span class="black-text">
+              <p>Students Status:</p>
+              {% for student in students %}
+              <li class="list-group-item"><a href="{{ url_for('student.profile', student_id=student.id) }}" >
+              {{ student.first_name }}  {{ student.last_name }}</li>
+              <li class="list-group-item"><a href="{{ url_for('student.sessionlist', student_id=student.id) }}" >Enroll</a></li>
+              {% endfor %}
+              <p><a href="{{ url_for('user.account', user_id=user.id) }}">Account</a></p>
+              <p><a href="{{ url_for('student.addstudent', user_id=user.id) }}">Add Stduent</a></p>
+              <p>To Change Your Password:</p>
+              <p><a href="{{ url_for('user.change_password', user_id=current_user.id) }}">Change Passwords</a></p>
+            </span>
+          </div>  
+
         </div>
-      </div>
+        </div>
       <p><a href="{{ url_for('user.account', user_id=current_user.id) }}" class="btn btn-primary">Account</a></p>
       <p><a href="{{ url_for('user.change_password', user_id=current_user.id) }}" class="btn btn-primary">Change Password</a></p>
-    </div>
+      </div>
     {% endif %}
-</div>
+    </div>
 
 <div id="tab2" class="col s12">
   {% if int(current_user.get_id()) == user.id or current_user.can(8) %}

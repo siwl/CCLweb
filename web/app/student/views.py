@@ -87,3 +87,10 @@ def register(student_id,session_id):
 def browse():
     students = Student.query.all()
     return render_template("student/student_browse.html", students=students)
+
+
+@student.route('/delete?student=<student_id>', methods=['GET', 'POST'])
+def delete(student_id):
+    student = Student.query.filter_by(id=student_id).first_or_404()
+    db.session.delete(student)
+    db.session.commit()

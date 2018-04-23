@@ -15,7 +15,8 @@ from ..decorators import authority_required, admin_required
 @authority_required(Permission.bit4)
 def profile(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    return render_template('user.html', user=user)
+    students = user.students.order_by(Student.added_time.desc()).all()
+    return render_template('user.html', user=user, students = students)
 
 
 #US2

@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, \
     current_user
 from . import session
 from .. import db
-from ..models import User, Session, Permission
+from ..models import User, Session, Permission, Class
 from ..email import send_email
 from .forms import NewSessionForm, EditProfileForm
 from ..decorators import permission_required
@@ -14,7 +14,8 @@ from ..decorators import permission_required
 @login_required
 def profile(session_id):
     session = Session.query.filter_by(id=session_id).first_or_404()
-    return render_template("session/profile.html", session=session)
+    tclass = Class.query.filter_by(id=session.class_id).first_or_404()
+    return render_template("session/profile.html", session=session, tclass=tclass)
 
 
 #SE2

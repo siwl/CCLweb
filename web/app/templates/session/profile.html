@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "ccl.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Flasky - Teacher Profile{% endblock %}
@@ -10,5 +10,37 @@
 <div class="col-md-4">
     <p> No.{{ session.id }}</p>
     <p>{{ session.school_year }}  {{ session.time }} {{ session.room }} {{ session.duration }}</p>
+</div>
+{% endblock %}
+
+
+
+{% block tab1 %}
+<li class="tab col s3"><a href="#tab1">Session Info</a></li>
+{% endblock %}
+{% block tab2 %}
+{% endblock %}
+{% block tab3 %}
+{% endblock %}
+
+
+{% block tabcontent %}
+<div id="tab1" class="col s12">
+<div class="row">
+  <div class="col s12 m5">
+    <div class="card-panel white">
+      <span class="black-text">
+        <p>Class: {{ tclass.name }}</p>
+        <p>Session ID: No.{{ session.id }}</p>
+        <p>School Year: {{ session.school_year }}  </p>
+        <p>Session Time: {{ session.time }} </p>
+        <p>Room: {{ session.room }} </p>
+        <p>Duraiton: {{ session.duration }}</p>
+        <p><a href="{{ url_for('session.delete_session',session_id=session.id)}}">Remove Session</a></p>
+        <p><a href="{{ url_for('session.browse') }}">Back to Sessions</a></p>
+      </span>
+    </div>
+  </div>
+</div>
 </div>
 {% endblock %}

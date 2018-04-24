@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "ccl.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Sessions{% endblock %}
+{% block title %}CCL - Sessions{% endblock %}
 
 {% block side_content %}
 <div class="page-header">
@@ -9,10 +9,30 @@
 </div>
 <div class="col-md-4">
     {% for session in sessions %}    
-    	<li class="list-group-item"><a href="{{ url_for('session.profile', session_id=session.id) }}" >{{ session.school_year }}  {{ session.time }}</a></li>
+    	<li class="list-group-item"><a href="{{ url_for('session.profile', session_id=session.id) }}" >{{ session.school_year }}  {{ session.time }}
+    	{{session.class_id}} </a></li>
     	<li class="list-group-item"><a href="{{ url_for('session.edit_profile', session_id=session.id) }}" >Edit</a></li>
     	
     {% endfor %}
 
 </div>
+{% endblock %}
+
+{% block tab2 %}
+{% endblock %}
+{% block tab3 %}
+{% endblock %}
+{% block tabcontent %}
+<div id="tab1" class="col s12">
+  <div class="col-md-4">
+    <ul class="collection">
+    {% for session in sessions %}
+    	<li class="list-group-item"><a href="{{ url_for('session.profile', session_id=session.id) }}" >{{ session.school_year }}  {{ session.time }}</a></li>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block currentMenuItem %}
+"school-session"
 {% endblock %}

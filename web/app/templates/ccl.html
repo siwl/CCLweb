@@ -128,10 +128,12 @@
                 <div class="collapsible-body">
                   <ul>
                     <li id="school-teacher"><a href="#">Teaching</a></li>
-                    <li id="school-teacher"><a href="#">Sessions</a></li>
+                    <li id="school-session">
+                      <a href="{{ url_for('session.browse') }}">Sessions</a>
+                    </li>
                     {% if int(current_user.can(Permission.bit4)) %}
-                    <li id="school-students">
-                      <a href="{{url_for('user.browse')}}">Students</a>
+                    <li id="school-student">
+                      <a href="{{url_for('student.browse')}}">Students</a>
                     </li>
                     {% endif %}
                     {% if int(current_user.can(Permission.bit5)) %}

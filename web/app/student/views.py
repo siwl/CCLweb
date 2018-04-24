@@ -84,6 +84,16 @@ def register(student_id,session_id):
     return redirect(url_for('.profile',student_id=student.id))
 
 
+@student.route('/register?student=<student_id>', methods=['GET', 'POST'])
+@login_required
+def enroll(student_id):
+    student = Student.query.filter_by(id=student_id).first_or_404()
+    session = Session.query.filter_by(id=session_id).first_or_404()
+    student.register(session)
+    flash('You are noe enrolled.')
+    return redirect(url_for('.profile',student_id=student.id))
+
+
 
 @student.route('/browse', methods=['GET', 'POST'])
 def browse():

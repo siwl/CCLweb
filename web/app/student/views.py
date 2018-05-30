@@ -16,10 +16,11 @@ def profile(student_id):
     student = Student.query.filter_by(id=student_id).first_or_404()
     user_id = student.user_id
     user = User.query.filter_by(id=user_id).first_or_404()
+    sessions = student.get_sessions()
     if not current_user.has_student(student) and not current_user.is_admin() \
     and not current_user.is_teacing(student):
         abort(403)
-    return render_template('student/student.html', student=student, user = user)
+    return render_template('student/student.html', student=student, user = user, sessions = sessions)
 
 
 #ST2
@@ -62,7 +63,7 @@ def edit_profile(student_id):
     return render_template('student/edit_student.html', form=form, student=student)
 
 
-
+#S
 @student.route('/sessionlist??student=<student_id>', methods=['GET', 'POST'])
 @login_required
 def sessionlist(student_id):
@@ -73,14 +74,14 @@ def sessionlist(student_id):
 
 
 
-
+#ST4
 @student.route('/register?student=<student_id>&session=<session_id>', methods=['GET', 'POST'])
 @login_required
 def register(student_id,session_id):
     student = Student.query.filter_by(id=student_id).first_or_404()
     session = Session.query.filter_by(id=session_id).first_or_404()
     student.register(session)
-    flash('You are noe enrolled.')
+    flash('Student %s are now enrolled.'%(student.first_name))
     return redirect(url_for('.profile',student_id=student.id))
 
 
@@ -94,11 +95,15 @@ def enroll(student_id):
     return redirect(url_for('.profile',student_id=student.id))
 
 
-
+#ST5
 @student.route('/browse', methods=['GET', 'POST'])
 def browse():
     students = Student.query.all()
     return render_template("student/student_browse.html", students=students)
+
+@student.route('/quit?student=<student_id>&session=<session_id>', methods=['GET', 'POST'])
+def quit():
+    pass
 
 
 @student.route('/delete?student=<student_id>', methods=['GET', 'POST'])

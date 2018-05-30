@@ -90,6 +90,11 @@ class Student(db.Model):
             st = StudentSession(student=self, session=session, status='Register')
             db.session.add(st)
 
+    def get_sessions(self):
+        sessions = []
+        for studentsession in self.sessions:
+            sessions.append(Session.query.filter_by(id=studentsession.session_id).first_or_404())
+        return sessions
 
 
 class Teacher(db.Model):

@@ -18,8 +18,15 @@
       <span class="black-text">
         <p>Student Name: {{ student.first_name }}{{ student.last_name }}</p>
         <p>Student's Parents: {{user.first_name1 }} {{user.last_name1}} </p>
+        <p>Student's Birthday: {{student.birthday }} </p>
+        <p>Classes Enrolled Now: <br />
+        {% for session in sessions %}
+        {{session.duration}}  
+        {{session.school_year}}
+        {{session.class_name()}}<br />
+        {% endfor %}
         <p><a href="{{ url_for('student.delete', student_id=student.id) }}">Remove Stduent</a></p>
-        <p><a href="{{ url_for('student.enroll', student_id=student.id) }}">Enroll Session</a></p>
+        <p><a href="{{ url_for('student.sessionlist', student_id=student.id) }}">Enroll Session</a></p>
       </span>
     </div>
   </div>

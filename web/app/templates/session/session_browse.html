@@ -3,20 +3,6 @@
 
 {% block title %}CCL - Sessions{% endblock %}
 
-{% block side_content %}
-<div class="page-header">
-    <h1>All Seesions</h1>
-</div>
-<div class="col-md-4">
-    {% for session in sessions %}    
-    	<li class="list-group-item"><a href="{{ url_for('session.profile', session_id=session.id) }}" >{{ session.school_year }}  {{ session.time }}
-    	{{session.class_id}} </a></li>
-    	<li class="list-group-item"><a href="{{ url_for('session.edit_profile', session_id=session.id) }}" >Edit</a></li>
-    	
-    {% endfor %}
-
-</div>
-{% endblock %}
 
 {% block tab2 %}
 {% endblock %}
@@ -27,7 +13,8 @@
   <div class="col-md-4">
     <ul class="collection">
     {% for session in sessions %}
-    	<li class="list-group-item"><a href="{{ url_for('session.profile', session_id=session.id) }}" >{{ session.school_year }}  {{ session.time }}</a></li>
+    	<li class="list-group-item"><a href="{{ url_for('session.profile', session_id=session.id) }}" >{{ session.school_year }}  {{ session.time }}
+        {{session.class_name()}}</a></li>
     {% endfor %}
   </div>
 </div>

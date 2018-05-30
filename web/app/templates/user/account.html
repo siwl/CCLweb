@@ -34,14 +34,7 @@
     </div>
   </div>
 
-<ul class="list-group">
-	{% for student in students %}
-    <li class="list-group-item"><a href="{{ url_for('student.profile', student_id=student.id) }}" >
-    {{ student.first_name }}  {{ student.last_name }}</li>
-    <li class="list-group-item"><a href="{{ url_for('student.sessionlist', student_id=student.id) }}" >Enroll</a></li>
 
-  {% endfor %}
-</ul>
 {% endif %}
 {% endblock %}
 

@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "ccl.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky - Sessions{% endblock %}
+{% block title %}CCL - Sessions{% endblock %}
 
 {% block side_content %}
 <div class="page-header">
@@ -18,4 +18,32 @@
     {% endfor %}
 
 </div>
+{% endblock %}
+
+
+{% block tab2 %}
+{% endblock %}
+{% block tab3 %}
+{% endblock %}
+{% block tabcontent %}
+<div id="tab1" class="col s12">
+  <div class="col-md-4">
+    <ul class="collection">
+    	{% for session in sessions %}    
+    	<li class="list-group-item">{{ session.school_year }}  {{ session.time }} 
+    	{{ session.room }} {{session.class_name()}}
+    	{% if not student.is_registering(session) %}
+    	<a href="{{ url_for('student.register', student_id=student.id, session_id=session.id) }}" >Enroll</a>
+        {% else %}
+        <p>Enrolled in the session</p>
+        <a href="{{ url_for('student.quit', student_id=student.id, session_id=session.id) }}" >Quit This Session</a>
+    	{% endif %}
+    	</a></li>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block currentMenuItem %}
+"school-student"
 {% endblock %}
